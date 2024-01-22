@@ -13,7 +13,7 @@
     NAMED(char *, cflags, 'c', "Additional flags to pass to compiler. Disables caching.") \
     NAMED(bool, help, 'h', "Prints this description.") \
     POSITIONAL(char *, target, "Target file to compile and run. Should be in the current directory.")
-#include "../cclap/cclap.h"
+#include "cclap.h"
 
 #if defined(__APPLE__) || defined(__linux__)
     #define COMPILER "cc"
