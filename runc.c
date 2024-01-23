@@ -128,7 +128,25 @@ int main(int argc, char *argv[]) {
         system(compile);
         free(compile);
     }
-    system(exec);
+    if (args->num_extra > 0) {
+        size_t exec_total_len = exec_len;
+        for (size_t i = 0; i < args->num_extra; i++) {
+            exec_total_len += strlen(args->extra[i]) + 3;
+        }
+        char *exec_cmd = malloc(exec_total_len + 1);
+        assert(exec_cmd);
+        strcpy(exec_cmd, exec);
+        for (size_t i = 0; i < args->num_extra; i++) {
+            strcat(exec_cmd, " \"");
+            strcat(exec_cmd, args->extra[i]);
+            strcat(exec_cmd, "\"");
+        }
+        exec_cmd[exec_total_len] = '\0';
+        system(exec_cmd);
+        free(exec_cmd);
+    } else {
+        system(exec);
+    }
     if (!cache) {
         fprintf(stderr, "Removing executable `%s`...\n", exec);
         remove(exec);
