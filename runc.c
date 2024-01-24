@@ -18,7 +18,7 @@
 #if defined(__APPLE__) || defined(__linux__)
     #define COMPILER "cc"
     #define BASE_CFLAGS "-Wall -Wextra"
-    #define DEFAULT_DEBUG_CFLAGS    BASE_CFLAGS " -g -fsanitize=address"
+    #define DEFAULT_DEBUG_CFLAGS    BASE_CFLAGS " -g -fsanitize=address,undefined"
     #define DEFAULT_RELEASE_CFLAGS  BASE_CFLAGS " -O3"
     // const char CONFIG_PATH[] = "~/.config/runc/";
     #define CACHE_DIR ".cache/"
