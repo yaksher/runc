@@ -10,6 +10,7 @@
 #define CCLAP_ARGS \
     NAMED(bool, debug, 'd', "Compiles and runs a debug executable with address sanitizer.") \
     NAMED_LONG(bool, clean, "Clean the build directory.") \
+    NAMED(bool, force, 'f', "Force recompilation of target. Useful if headers have changed.") \
     NAMED(char *, cflags, 'c', "Additional flags to pass to compiler. Disables caching.") \
     NAMED(bool, help, 'h', "Prints this description.") \
     POSITIONAL(char *, target, "Target file to compile and run. Should be in the current directory.")
@@ -111,8 +112,8 @@ int main(int argc, char *argv[]) {
     assert(exec);
     snprintf(exec, exec_len + 1, "%s%s%s", build_dir, prefix, target);
     bool exec_exists = access(exec, F_OK) != -1;
-    bool exec_needs_compile = !exec_exists;
-    if (exec_exists) {
+    bool exec_needs_compile = !exec_exists || args->force;
+    if (!exec_needs_compile) {
         struct stat exec_stat;
         struct stat target_stat;
         stat(exec, &exec_stat);
